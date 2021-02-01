@@ -5,16 +5,22 @@ expectations:
 
 actions:
 
-  generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition
+  generate_measure_cohort:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measures --index-date-range "2019-02-01 to 2020-10-01 by month"
     outputs:
       highly_sensitive:
-        cohort: output/input.csv
+        measure_data: output/input_measures*.csv
 
-  run_model:
-    run: stata-mp:latest analysis/model.do
-    needs: [generate_study_population]
+  calculate_measures:
+    run: cohortextractor:latest  generate_measures --study-definition study_definition_measures
+    needs: [generate_measure_cohort]
     outputs:
       moderately_sensitive:
-        log: logs/model.log
+        measure: output/measure_*_rate.csv
 
+  draw_timeseries:
+    run: python:latest python analysis/time_series_plots.py
+    needs: [calculate_measures]
+    outputs:
+      moderately_sensitive:
+        graph: output/event_count_time_series.svg

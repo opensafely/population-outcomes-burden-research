@@ -1,0 +1,64 @@
+{
+  "files": {
+    "opensafely-covid-identification.csv": {
+      "id": "opensafely/covid-identification/2020-06-03",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification/2020-06-03/",
+      "downloaded_at": "2021-02-01 23:18:42.678070Z",
+      "sha": "124db6929439379b7dacd55ba26ae4f2ed9370bc"
+    },
+    "opensafely-incident-venous-thromboembolic-disease.csv": {
+      "id": "opensafely/incident-venous-thromboembolic-disease/2020-09-30",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/incident-venous-thromboembolic-disease/2020-09-30/",
+      "downloaded_at": "2021-02-01 23:18:42.804100Z",
+      "sha": "688e9ecdd59f1f0a7b1d5633677388a621f456a7"
+    },
+    "opensafely-pneumonia-secondary-care.csv": {
+      "id": "opensafely/pneumonia-secondary-care/2020-10-05",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/pneumonia-secondary-care/2020-10-05/",
+      "downloaded_at": "2021-02-01 23:18:42.933780Z",
+      "sha": "866ab4f0ff144330c1a0ea28116c9d2073cf379a"
+    },
+    "opensafely-incident-non-traumatic-stroke.csv": {
+      "id": "opensafely/incident-non-traumatic-stroke/0be6efb3",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/incident-non-traumatic-stroke/0be6efb3/",
+      "downloaded_at": "2021-02-01 23:18:43.068444Z",
+      "sha": "0ab55320f1c9251bda2712164927dd40debfea9f"
+    },
+    "opensafely-stroke-secondary-care.csv": {
+      "id": "opensafely/stroke-secondary-care/2020-10-05",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/stroke-secondary-care/2020-10-05/",
+      "downloaded_at": "2021-02-01 23:18:43.209530Z",
+      "sha": "04aeb4b87dcf27651e34c287fdffe023bce38591"
+    },
+    "opensafely-venous-thromboembolic-disease-hospital.csv": {
+      "id": "opensafely/venous-thromboembolic-disease-hospital/2020-10-01",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/venous-thromboembolic-disease-hospital/2020-10-01/",
+      "downloaded_at": "2021-02-01 23:18:43.374290Z",
+      "sha": "5dd9d60df2ad93e622d76e0d7d90f71d14168af1"
+    },
+    "opensafely-diabetic-ketoacidosis-secondary-care.csv": {
+      "id": "opensafely/diabetic-ketoacidosis-secondary-care/6e975569",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/diabetic-ketoacidosis-secondary-care/6e975569/",
+      "downloaded_at": "2021-02-01 23:18:43.548231Z",
+      "sha": "6176b35e183fe09e69c63d170b937445a143b0ee"
+    },
+    "opensafely-myocardial-infarction-2.csv": {
+      "id": "opensafely/myocardial-infarction-2/2020-07-09",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/myocardial-infarction-2/2020-07-09/",
+      "downloaded_at": "2021-02-01 23:18:43.681788Z",
+      "sha": "392939dc703299be6e01daae092b1543ffc933fd"
+    },
+    "opensafely-heart-failure.csv": {
+      "id": "opensafely/heart-failure/2020-05-05",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/heart-failure/2020-05-05/",
+      "downloaded_at": "2021-02-01 23:18:43.825143Z",
+      "sha": "6139df4911534868bc5ade1ada53395606651064"
+    },
+    "opensafely-cardiovascular-secondary-care.csv": {
+      "id": "opensafely/cardiovascular-secondary-care/20b63bd4",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/cardiovascular-secondary-care/20b63bd4/",
+      "downloaded_at": "2021-02-01 23:18:43.968696Z",
+      "sha": "2058b84c281a623ad71793e9b5058aea9079612f"
+    }
+  }
+}
