@@ -6,11 +6,10 @@ from study_definition_measures import measures
 
 def import_timeseries(column):
     path = f"output/measure_{m.id}.csv"
-    df = pd.read_csv(path)
+    df = pd.read_csv(path, usecols=["date", column, m.denominator] + m.group_by)
     df["date"] = pd.to_datetime(df["date"])
     df = df.set_index(["date"] + m.group_by)
     df = redact_small_numbers(df)
-    df["value"] = df["value"] * 100000
     df = df.unstack(m.group_by)
     df.to_csv(f"output/table_{m.id}.csv")
     df = df[column]
@@ -75,12 +74,3 @@ for i, ax in enumerate(axes.flat):
     title = f"{chr(97 + i)}) People {grammar_decider(m.numerator)} each month:"
     graphing_options(m.numerator)
 plt.savefig("output/event_count_time_series.svg")
-
-fig, axes = plt.subplots(ncols=2, nrows=4, sharey=False, figsize=[10, 15])
-for i, ax in enumerate(axes.flat):
-    m = measures[i]
-    df = import_timeseries("value")
-    df.plot(ax=ax, alpha=0.9, color=["#176dde", "#e6e600", "#ffad33"])
-    title = f"{chr(97 + i)}) Rate of {m.numerator} each month:"
-    graphing_options("value")
-plt.savefig("output/event_rate_time_series.svg")
