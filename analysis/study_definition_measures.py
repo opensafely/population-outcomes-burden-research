@@ -21,9 +21,6 @@ study = StudyDefinition(
         """
             has_follow_up
         AND (age >=18 AND age <= 110)
-        AND (sex = "M" OR sex = "F")
-        AND imd > 0
-        AND NOT stp = ""
         """,
         has_follow_up=patients.registered_with_one_practice_between(
             "index_date - 1 year", "index_date"
@@ -35,31 +32,7 @@ study = StudyDefinition(
                 "int": {"distribution": "population_ages"},
             },
         ),
-        sex=patients.sex(
-            return_expectations={
-                "rate": "universal",
-                "category": {"ratios": {"M": 0.49, "F": 0.51}},
-            }
-        ),
-        imd=patients.address_as_of(
-            "index_date",
-            returning="index_of_multiple_deprivation",
-            round_to_nearest=100,
-            return_expectations={
-                "rate": "universal",
-                "category": {"ratios": {"100": 0.1, "200": 0.1}},
-            },
-        ),
-        stp=patients.registered_practice_as_of(
-            "index_date",
-            returning="stp_code",
-            return_expectations={
-                "rate": "universal",
-                "category": {"ratios": {"STP1": 0.1, "STP2": 0.1}},
-            },
-        ),
     ),
-    everyone=patients.satisfying("1=1", return_expectations={"incidence": 1}),
     covid_hospitalisation=patients.categorised_as(
         {
             "COVID-19 positive": "covid_positive AND NOT covid_hospitalised",
