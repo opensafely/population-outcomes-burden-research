@@ -4,17 +4,22 @@ import matplotlib.pyplot as plt
 from study_definition_measures import measures
 
 
-def import_timeseries(column):
+def import_timeseries():
     path = f"output/measure_{m.id}.csv"
-    df = pd.read_csv(path, usecols=["date", column, m.denominator] + m.group_by)
-    df["date"] = pd.to_datetime(df["date"])
-    df = df.set_index(["date"] + m.group_by)
-    df = redact_small_numbers(df)
-    df = df.unstack(m.group_by)
-    df.to_csv(f"output/table_{m.id}.csv")
-    df = df[column]
+    table = pd.read_csv(
+        path,
+        usecols=["date", m.numerator, m.denominator] + m.group_by,
+        parse_dates=["date"],
+    )
+    table = table.set_index(["date"] + m.group_by)
+    table = redact_small_numbers(table)
+    table = table.unstack(m.group_by)
+    table[f"total_{m.numerator}"] = table[m.numerator].sum(axis=1)
+    table[f"total_{m.denominator}"] = table[m.denominator].sum(axis=1)
+    table.to_csv(f"output/table_{m.id}.csv")
+    out = table[m.numerator]
     # Return columns in reverse order
-    return df.iloc[:, ::-1]
+    return out.iloc[:, ::-1]
 
 
 def redact_small_numbers(df):
@@ -62,7 +67,7 @@ def graphing_options(column):
 fig, axes = plt.subplots(ncols=2, nrows=4, sharey=False, figsize=[10, 15])
 for i, ax in enumerate(axes.flat):
     m = measures[i]
-    df = import_timeseries(m.numerator)
+    df = import_timeseries()
     df.plot(
         kind="bar",
         stacked=True,
