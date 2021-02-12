@@ -18,8 +18,9 @@ def import_timeseries():
     table[f"total_{m.denominator}"] = table[m.denominator].sum(axis=1)
     table.to_csv(f"output/table_{m.id}.csv")
     out = table[m.numerator]
+    totals = table[f"total_{m.numerator}"]
     # Return columns in reverse order
-    return out.iloc[:, ::-1]
+    return out.iloc[:, ::-1], totals
 
 
 def redact_small_numbers(df):
@@ -48,6 +49,10 @@ def line_format(label):
     return lab
 
 
+def get_ci(df):
+    return df.transform("sqrt") * 1.96
+
+
 def graphing_options(column):
     ax.grid(which="both", axis="y", color="#666666", linestyle="-", alpha=0.2)
     ax.set_title(title, loc="left")
@@ -67,7 +72,7 @@ def graphing_options(column):
 fig, axes = plt.subplots(ncols=2, nrows=4, sharey=False, figsize=[10, 15])
 for i, ax in enumerate(axes.flat):
     m = measures[i]
-    df = import_timeseries()
+    df, totals = import_timeseries()
     df.plot(
         kind="bar",
         stacked=True,
@@ -76,6 +81,7 @@ for i, ax in enumerate(axes.flat):
         alpha=0.9,
         color=["#176dde", "#e6e600", "#ffad33"],
     )
+    totals.plot(kind="bar", ax=ax, yerr=get_ci(totals), alpha=0, label="_nolegend_")
     title = f"{chr(97 + i)}) People {grammar_decider(m.numerator)} each month:"
     graphing_options(m.numerator)
 plt.savefig("output/event_count_time_series.svg")
