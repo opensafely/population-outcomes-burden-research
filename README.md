@@ -1,16 +1,11 @@
-# OpenSAFELY Research Template
+# Changes in the rate of cardiometabolic and pulmonary events during the COVID-19 pandemic
 
-This is a template repository for making new OpenSAFELY resarch projects.
+This is the code and configuration for our paper, "Changes in the rate of cardiometabolic and pulmonary events during the COVID-19 pandemic".
 
-# _title goes here_
-
-This is the code and configuration for our paper, _name goes here_
-
-* The paper is [here]()
-* Raw model outputs, including charts, crosstabs, etc, are in `released_outputs/`
-* If you are interested in how we defined our variables, take a look at the [study definition](analysis/study_definition.py); this is written in `python`, but non-programmers should be able to understand what is going on there
+* The paper has been submitted to medRxiv, and will appear [here](https://doi.org/10.1101/2021.02.17.21251812) soon.
+* Raw model outputs, including charts, crosstabs, etc, are in [released_output](./released_output/)
+* If you are interested in how we defined our variables, take a look at the study definitions in [analysis](./analysis/); this is written in `python`, but non-programmers should be able to understand what is going on there
 * If you are interested in how we defined our code lists, look in the [codelists folder](./codelists/).
-* Developers and epidemiologists interested in the framework should review [the OpenSAFELY documentation](https://docs.opensafely.org)
 
 # About the OpenSAFELY framework
 
