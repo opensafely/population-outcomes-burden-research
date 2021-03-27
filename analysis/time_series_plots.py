@@ -69,19 +69,16 @@ def graphing_options(column):
     plt.tight_layout()
 
 
-fig, axes = plt.subplots(ncols=2, nrows=4, sharey=False, figsize=[10, 15])
-for i, ax in enumerate(axes.flat):
-    m = measures[i]
-    df, totals = import_timeseries()
-    df.plot(
-        kind="bar",
-        stacked=True,
-        ax=ax,
-        width=0.85,
-        alpha=0.9,
-        color=["#176dde", "#e6e600", "#ffad33"],
-    )
-    totals.plot(kind="bar", ax=ax, yerr=get_ci(totals), alpha=0, label="_nolegend_")
-    title = f"{chr(97 + i)}) People {grammar_decider(m.numerator)} each month:"
-    graphing_options(m.numerator)
+m = measures[0]
+df, totals = import_timeseries()
+ax = df.plot(
+    kind="bar",
+    stacked=True,
+    width=0.85,
+    alpha=0.9,
+    color=["#176dde", "#e6e600", "#ffad33"],
+)
+totals.plot(kind="bar", ax=ax, yerr=get_ci(totals), alpha=0, label="_nolegend_")
+title = f"People {grammar_decider(m.numerator)} each month:"
+graphing_options(m.numerator)
 plt.savefig("output/event_count_time_series.svg")

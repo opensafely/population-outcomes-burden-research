@@ -7,8 +7,9 @@ from cohortextractor import (
     combine_codelists,
     filter_codes_by_category,
 )
-from codelists import *
+from codelists import covid_codelist
 
+csvt_codes = codelist(["G08X", "I636", "I676"], system="icd10")
 
 study = StudyDefinition(
     default_expectations={
@@ -62,183 +63,26 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.20},
         ),
     ),
-    stroke=patients.satisfying(
-        "stroke_gp OR stroke_hospital OR stroke_ons",
-        stroke_gp=patients.with_these_clinical_events(
-            stroke,
+    CSVT=patients.satisfying(
+        "CSVT_hospital OR CSVT_ons",
+        CSVT_hospital=patients.admitted_to_hospital(
+            with_these_diagnoses=csvt_codes,
             between=["index_date", "last_day_of_month(index_date)"],
             return_expectations={"incidence": 0.05},
         ),
-        stroke_hospital=patients.admitted_to_hospital(
-            with_these_diagnoses=stroke_hospital,
+        CSVT_ons=patients.with_these_codes_on_death_certificate(
+            csvt_codes,
             between=["index_date", "last_day_of_month(index_date)"],
             return_expectations={"incidence": 0.05},
         ),
-        stroke_ons=patients.with_these_codes_on_death_certificate(
-            stroke_hospital,
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-    ),
-    DVT=patients.satisfying(
-        "dvt_gp OR dvt_hospital OR dvt_ons",
-        dvt_gp=patients.with_these_clinical_events(
-            filter_codes_by_category(vte_codes_gp, include=["dvt"]),
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-        dvt_hospital=patients.admitted_to_hospital(
-            with_these_diagnoses=filter_codes_by_category(
-                vte_codes_hospital, include=["dvt"]
-            ),
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-        dvt_ons=patients.with_these_codes_on_death_certificate(
-            filter_codes_by_category(vte_codes_hospital, include=["dvt"]),
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-    ),
-    PE=patients.satisfying(
-        "pe_gp OR pe_hospital OR pe_ons",
-        pe_gp=patients.with_these_clinical_events(
-            filter_codes_by_category(vte_codes_gp, include=["pe"]),
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-        pe_hospital=patients.admitted_to_hospital(
-            with_these_diagnoses=filter_codes_by_category(
-                vte_codes_hospital, include=["pe"]
-            ),
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-        pe_ons=patients.with_these_codes_on_death_certificate(
-            filter_codes_by_category(vte_codes_hospital, include=["pe"]),
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-    ),
-    AKI=patients.satisfying(
-        "aki_hospital OR aki_ons",
-        aki_hospital=patients.admitted_to_hospital(
-            with_these_diagnoses=aki_codes,
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-        aki_ons=patients.with_these_codes_on_death_certificate(
-            aki_codes,
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-    ),
-    MI=patients.satisfying(
-        "mi_gp OR mi_hospital OR mi_ons",
-        mi_gp=patients.with_these_clinical_events(
-            mi_codes,
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-        mi_hospital=patients.admitted_to_hospital(
-            with_these_diagnoses=filter_codes_by_category(
-                mi_codes_hospital, include=["1"]
-            ),
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-        mi_ons=patients.with_these_codes_on_death_certificate(
-            filter_codes_by_category(mi_codes_hospital, include=["1"]),
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-    ),
-    heart_failure=patients.satisfying(
-        "heart_failure_gp OR heart_failure_hospital OR heart_failure_ons",
-        heart_failure_gp=patients.with_these_clinical_events(
-            heart_failure_codes,
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-        heart_failure_hospital=patients.admitted_to_hospital(
-            with_these_diagnoses=filter_codes_by_category(
-                heart_failure_codes_hospital, include=["1"]
-            ),
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-        heart_failure_ons=patients.with_these_codes_on_death_certificate(
-            filter_codes_by_category(heart_failure_codes_hospital, include=["1"]),
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-    ),
-    ketoacidosis=patients.satisfying(
-        "ketoacidosis_hospital OR ketoacidosis_ons",
-        ketoacidosis_hospital=patients.admitted_to_hospital(
-            with_these_diagnoses=ketoacidosis_codes,
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-        ketoacidosis_ons=patients.with_these_codes_on_death_certificate(
-            ketoacidosis_codes,
-            between=["index_date", "last_day_of_month(index_date)"],
-            return_expectations={"incidence": 0.05},
-        ),
-    ),
-    died=patients.died_from_any_cause(
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={"incidence": 0.1},
     ),
 )
 
 
 measures = [
     Measure(
-        id="died_rate",
-        numerator="died",
-        denominator="population",
-        group_by=["covid_hospitalisation"],
-    ),
-    Measure(
-        id="DVT_rate",
-        numerator="DVT",
-        denominator="population",
-        group_by=["covid_hospitalisation"],
-    ),
-    Measure(
-        id="PE_rate",
-        numerator="PE",
-        denominator="population",
-        group_by=["covid_hospitalisation"],
-    ),
-    Measure(
-        id="stroke_rate",
-        numerator="stroke",
-        denominator="population",
-        group_by=["covid_hospitalisation"],
-    ),
-    Measure(
-        id="MI_rate",
-        numerator="MI",
-        denominator="population",
-        group_by=["covid_hospitalisation"],
-    ),
-    Measure(
-        id="heart_failure_rate",
-        numerator="heart_failure",
-        denominator="population",
-        group_by=["covid_hospitalisation"],
-    ),
-    Measure(
-        id="AKI_rate",
-        numerator="AKI",
-        denominator="population",
-        group_by=["covid_hospitalisation"],
-    ),
-    Measure(
-        id="ketoacidosis_rate",
-        numerator="ketoacidosis",
+        id="CSVT_rate",
+        numerator="CSVT",
         denominator="population",
         group_by=["covid_hospitalisation"],
     ),

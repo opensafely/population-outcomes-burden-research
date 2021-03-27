@@ -5,15 +5,33 @@ expectations:
 
 actions:
 
-  generate_measure_cohort:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_measures --index-date-range "2019-02-01 to 2020-10-01 by month"
+  generate_cohort_2017:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measures --index-date-range "2017-01-01 to 2017-12-31 by month"
     outputs:
       highly_sensitive:
         measure_data: output/input_measures*.csv
 
+  generate_cohort_2018:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measures --index-date-range "2018-01-01 to 2018-12-31 by month"
+    outputs:
+      highly_sensitive:
+        measure_data: output/input_measure*.csv
+
+  generate_cohort_2019:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measures --index-date-range "2019-01-01 to 2019-12-31 by month"
+    outputs:
+      highly_sensitive:
+        measure_data: output/input_measur*.csv
+
+  generate_cohort_2020:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measures --index-date-range "2020-01-01 to 2020-12-31 by month"
+    outputs:
+      highly_sensitive:
+        measure_data: output/input_measu*.csv
+
   calculate_measures:
     run: cohortextractor:latest  generate_measures --study-definition study_definition_measures
-    needs: [generate_measure_cohort]
+    needs: [generate_cohort_2017, generate_cohort_2018, generate_cohort_2019, generate_cohort_2020]
     outputs:
       moderately_sensitive:
         measure: output/measure_*_rate.csv
