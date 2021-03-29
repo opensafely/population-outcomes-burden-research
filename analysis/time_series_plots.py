@@ -53,7 +53,7 @@ def graphing_options(column):
     ax.grid(which="both", axis="y", color="#666666", linestyle="-", alpha=0.2)
     ax.set_title(title, loc="left")
     ax.set_ylim(ymin=0)
-    ax.set_ylabel(f"people {grammar_decider(column)}")
+    ax.set_ylabel(f"Count of people with a recorded code")
     handles, labels = ax.get_legend_handles_labels()
     handles, labels = list(reversed(handles)), list(reversed(labels))
     ax.get_legend().remove()
@@ -62,22 +62,33 @@ def graphing_options(column):
         if (n > 0) and ((n) % 4 != 0):
             l.set_visible(False)
     ax.xaxis.label.set_visible(False)
+    plt.figtext(
+        0.05,
+        0,
+        "G08: Intracranial and intraspinal phlebitis and thrombophlebitis\nI63.6: Cerebral infarction due to cerebral venous thrombosis, nonpyogenic\nI67.6: Nonpyogenic thrombosis of intracranial venous system",
+        ha="left",
+        va="bottom",
+        fontsize=11,
+    )
     plt.tight_layout()
+    fig.subplots_adjust(bottom=0.2)
 
 
-fig, axes = plt.subplots(ncols=2, nrows=1, sharey=False, figsize=[10, 4])
+titles = ["G08", "I63.6 or I67.6"]
+
+fig, axes = plt.subplots(ncols=2, nrows=1, sharey=False, figsize=[10.5, 4.8])
 for i, ax in enumerate(axes.flat):
     m = measures[i]
     df, totals = import_timeseries()
-    df.plot(
+    df.plot(kind="bar", stacked=True, ax=ax, width=0.9, alpha=0.9)
+    totals.plot(
         kind="bar",
-        stacked=True,
         ax=ax,
-        width=0.85,
-        alpha=0.9,
-        color=["#176dde", "#e6e600", "#ffad33"],
+        yerr=get_ci(totals),
+        alpha=0,
+        label="_nolegend_",
+        error_kw=dict(alpha=0.4),
     )
-    totals.plot(kind="bar", ax=ax, yerr=get_ci(totals), alpha=0, label="_nolegend_")
-    title = f"{chr(97 + i)}) People {grammar_decider(m.numerator)} each month:"
+    title = f"{chr(97 + i)}) People with a code for {titles[i]} each month:"
     graphing_options(m.numerator)
 plt.savefig("output/event_count_time_series.svg")
