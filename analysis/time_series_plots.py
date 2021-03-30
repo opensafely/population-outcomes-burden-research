@@ -81,14 +81,14 @@ for i, ax in enumerate(axes.flat):
     m = measures[i]
     df, totals = import_timeseries()
     df.plot(kind="bar", stacked=True, ax=ax, width=0.9, alpha=0.9)
-    totals.plot(
-        kind="bar",
-        ax=ax,
-        yerr=get_ci(totals),
-        alpha=0,
-        label="_nolegend_",
-        error_kw=dict(alpha=0.4),
-    )
+    # totals.plot(
+    #     kind="bar",
+    #     ax=ax,
+    #     yerr=get_ci(totals),
+    #     alpha=0,
+    #     label="_nolegend_",
+    #     error_kw=dict(alpha=0.4),
+    # )
     title = f"{chr(97 + i)}) People with a code for {titles[i]} each month:"
     graphing_options(m.numerator)
 plt.savefig("output/event_count_time_series.svg")
