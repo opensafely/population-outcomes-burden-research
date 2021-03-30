@@ -65,7 +65,7 @@ def graphing_options(column):
     plt.figtext(
         0.05,
         0,
-        "G08: Intracranial and intraspinal phlebitis and thrombophlebitis\nI63.6: Cerebral infarction due to cerebral venous thrombosis, nonpyogenic\nI67.6: Nonpyogenic thrombosis of intracranial venous system",
+        "I63.6: Cerebral infarction due to cerebral venous thrombosis, nonpyogenic\nI67.6: Nonpyogenic thrombosis of intracranial venous system\nG08: Intracranial and intraspinal phlebitis and thrombophlebitis",
         ha="left",
         va="bottom",
         fontsize=11,
@@ -74,11 +74,11 @@ def graphing_options(column):
     fig.subplots_adjust(bottom=0.2)
 
 
-titles = ["G08", "I63.6 or I67.6"]
+titles = ["I63.6 or I67.6", "G08"]
 
 fig, axes = plt.subplots(ncols=2, nrows=1, sharey=False, figsize=[10.5, 4.8])
 for i, ax in enumerate(axes.flat):
-    m = measures[i]
+    m = measures[::-1][i]
     df, totals = import_timeseries()
     df.plot(kind="bar", stacked=True, ax=ax, width=0.9, alpha=0.9)
     # totals.plot(
