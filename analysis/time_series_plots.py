@@ -58,7 +58,7 @@ def get_ci(df):
 def graphing_options(ax):
     ax.grid(which="both", axis="y", color="#666666", linestyle="-", alpha=0.2)
     ax.set_title(title, loc="left")
-    ax.set_ylim(ymin=0)
+    ax.set_ylim(ymin=0, ymax=80)
     ax.set_ylabel("Count of people with a recorded code")
     handles, labels = ax.get_legend_handles_labels()
     handles, labels = list(reversed(handles)), list(reversed(labels))
@@ -82,7 +82,7 @@ def graphing_options(ax):
 
 titles = ["I63.6 or I67.6", "G08"]
 
-fig, axes = plt.subplots(ncols=2, nrows=1, sharey=True, figsize=[10.5, 4.8])
+fig, axes = plt.subplots(ncols=2, nrows=1, sharey=False, figsize=[10.5, 4.8])
 for i, ax in enumerate(axes.flat):
     m = measures[::-1][i]
     df, totals = import_timeseries()
