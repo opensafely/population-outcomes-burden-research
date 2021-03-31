@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from study_definition_measures import measures
+from scipy.stats import poisson
 
 
 def import_timeseries():
@@ -46,14 +47,19 @@ def line_format(label):
 
 
 def get_ci(df):
-    return df.transform("sqrt") * 1.96
+    errlo, errhi = poisson.interval(0.95, df)
+    errlo = df - errlo
+    errhi = errhi - df
+    yerr = np.append(errlo, errhi, axis=1).T
+    return yerr
+    # df.transform("sqrt") * 1.96
 
 
-def graphing_options(column):
+def graphing_options(ax):
     ax.grid(which="both", axis="y", color="#666666", linestyle="-", alpha=0.2)
     ax.set_title(title, loc="left")
     ax.set_ylim(ymin=0)
-    ax.set_ylabel(f"Count of people with a recorded code")
+    ax.set_ylabel("Count of people with a recorded code")
     handles, labels = ax.get_legend_handles_labels()
     handles, labels = list(reversed(handles)), list(reversed(labels))
     ax.get_legend().remove()
@@ -76,7 +82,7 @@ def graphing_options(column):
 
 titles = ["I63.6 or I67.6", "G08"]
 
-fig, axes = plt.subplots(ncols=2, nrows=1, sharey=False, figsize=[10.5, 4.8])
+fig, axes = plt.subplots(ncols=2, nrows=1, sharey=True, figsize=[10.5, 4.8])
 for i, ax in enumerate(axes.flat):
     m = measures[::-1][i]
     df, totals = import_timeseries()
@@ -90,5 +96,5 @@ for i, ax in enumerate(axes.flat):
     #     error_kw=dict(alpha=0.4),
     # )
     title = f"{chr(97 + i)}) People with a code for {titles[i]} each month:"
-    graphing_options(m.numerator)
+    graphing_options(ax)
 plt.savefig("output/event_count_time_series.svg")
