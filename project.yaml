@@ -37,7 +37,7 @@ actions:
 
   calculate_measures:
     run: cohortextractor:latest  generate_measures --study-definition study_definition_measures
-    needs: [generate_cohort_2017, generate_cohort_2018, generate_cohort_2019, generate_cohort_2020]
+    needs: [generate_cohort_2017, generate_cohort_2018, generate_cohort_2019, generate_cohort_2020, generate_cohort_2021]
     outputs:
       moderately_sensitive:
         measure: output/measure_*_rate.csv
