@@ -30,7 +30,7 @@ actions:
         measure_data: output/input_measu*.csv
 
   generate_cohort_2021:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_measures --index-date-range "2021-01-01 to 2020-02-28 by month"
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measures --index-date-range "2021-01-01 to 2021-02-28 by month"
     outputs:
       highly_sensitive:
         measure_data: output/input_meas*.csv
