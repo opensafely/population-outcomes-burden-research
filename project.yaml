@@ -29,6 +29,12 @@ actions:
       highly_sensitive:
         measure_data: output/input_measu*.csv
 
+  generate_cohort_2021:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measures --index-date-range "2021-01-01 to 2020-02-28 by month"
+    outputs:
+      highly_sensitive:
+        measure_data: output/input_measu*.csv
+
   calculate_measures:
     run: cohortextractor:latest  generate_measures --study-definition study_definition_measures
     needs: [generate_cohort_2017, generate_cohort_2018, generate_cohort_2019, generate_cohort_2020]

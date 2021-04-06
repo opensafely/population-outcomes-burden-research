@@ -52,7 +52,6 @@ def get_ci(df):
     errhi = errhi - df
     yerr = np.append(errlo, errhi, axis=1).T
     return yerr
-    # df.transform("sqrt") * 1.96
 
 
 def graphing_options(ax):
